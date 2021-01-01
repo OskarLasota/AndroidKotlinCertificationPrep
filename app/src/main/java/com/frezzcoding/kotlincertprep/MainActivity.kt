@@ -1,6 +1,11 @@
 package com.frezzcoding.kotlincertprep
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Gravity
@@ -8,6 +13,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.custom_toast.*
 
@@ -30,11 +37,79 @@ class MainActivity : AppCompatActivity() {
         //todo implicit intents
         appSelector()
         //todo create notification
+        createNotificationChannel()
+        showNotification()
         //todo androidx overview
         //todo getting started with jetpack
         //todo android ktx
         //todo codelabs workmanager
         //todo codelabs notifications
+
+    }
+
+    private fun createNotificationChannel(){
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = "R.string.channel_name"
+            val descriptionText = "getString(R.string.channel_description)"
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel("0", name, importance).apply {
+                description = descriptionText
+            }
+            // Register the channel with the system
+            val notificationManager: NotificationManager =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
+
+    }
+
+    private fun showNotification(){
+        //set up broadcast receiver to perform a job in the background so the action does not interrupt the app that's already open
+        val snoozeIntent = Intent(this, MyBroadcastReceiver::class.java).apply {
+            action = "ACTION_SNOOZE"
+            putExtra("id",0 )
+        }
+        val snoozePendingIntent : PendingIntent = PendingIntent.getBroadcast(this, 0, snoozeIntent, 0)
+        
+        var builder = NotificationCompat.Builder(this, "0")
+            .setSmallIcon(R.drawable.ic_android)
+            .setContentTitle("textTitle")
+            .setContentText("textContent")
+            .setStyle(NotificationCompat.BigTextStyle()
+                .bigText("Much longer text that cannot fit one line...")
+                //.bigPicture()
+            )
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .addAction(R.drawable.ic_launcher_background, "Snooze", snoozePendingIntent)
+
+        with(NotificationManagerCompat.from(this)){
+            notify(0, builder.build())
+        }
+
+        //media control notification
+
+        /*
+        var notification = NotificationCompat.Builder(context, CHANNEL_ID)
+            // Show controls on lock screen even when user hides sensitive content.
+            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+            .setSmallIcon(R.drawable.ic_stat_player)
+            // Add media control buttons that invoke intents in your media service
+            .addAction(R.drawable.ic_prev, "Previous", prevPendingIntent) // #0
+            .addAction(R.drawable.ic_pause, "Pause", pausePendingIntent) // #1
+            .addAction(R.drawable.ic_next, "Next", nextPendingIntent) // #2
+            // Apply the media style template
+            .setStyle(MediaNotificationCompat.MediaStyle()
+                .setShowActionsInCompactView(1 /* #1: pause button \*/)
+                .setMediaSession(mediaSession.getSessionToken()))
+            .setContentTitle("Wonderful music")
+            .setContentText("My Awesome Band")
+            .setLargeIcon(albumArtBitmap)
+            .build()
+
+         */
+
 
     }
 
