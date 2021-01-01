@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.custom_toast.*
 
 class MainActivity : AppCompatActivity() {
@@ -18,6 +19,7 @@ class MainActivity : AppCompatActivity() {
         //todo toasts
         showToast()
         //todo snackbars
+        showSnackbar()
         //todo localisation
         //todo app fundamentals
         //todo create notification
@@ -27,6 +29,10 @@ class MainActivity : AppCompatActivity() {
         //todo codelabs workmanager
         //todo codelabs notifications
 
+    }
+
+    private fun showSnackbar(){
+        Snackbar.make(window.decorView, "This is a snickers Snackbar", Snackbar.LENGTH_SHORT).show()
     }
 
 
