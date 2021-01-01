@@ -1,5 +1,6 @@
 package com.frezzcoding.kotlincertprep
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Gravity
@@ -21,7 +22,13 @@ class MainActivity : AppCompatActivity() {
         //todo snackbars
         showSnackbar()
         //todo localisation
+        //covered localisation
         //todo app fundamentals
+        //broadcast receivers - send a notification if battery is low or picture was captured
+        //services
+        //content providers
+        //todo implicit intents
+        appSelector()
         //todo create notification
         //todo androidx overview
         //todo getting started with jetpack
@@ -29,6 +36,16 @@ class MainActivity : AppCompatActivity() {
         //todo codelabs workmanager
         //todo codelabs notifications
 
+    }
+
+    private fun appSelector(){
+        val sendIntent : Intent = Intent(Intent.ACTION_SEND)
+        val title = "title"
+        val chooser : Intent = Intent.createChooser(sendIntent, title)
+        //verify the original intent will resolve to at least one activity
+        if(sendIntent.resolveActivity(packageManager) != null){
+            startActivity(chooser)
+        }
     }
 
     private fun showSnackbar(){
