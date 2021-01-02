@@ -6,15 +6,18 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
-import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.work.Constraints
+import androidx.work.NetworkType
+import androidx.work.OneTimeWorkRequest
+import androidx.work.WorkManager
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.custom_toast.*
 
@@ -43,8 +46,17 @@ class MainActivity : AppCompatActivity() {
         //todo getting started with jetpack
         //todo android ktx
         //todo codelabs workmanager
-        //todo codelabs notifications
+        runWork()
+    }
 
+    private fun runWork(){
+        //work can be done once or periodically
+        //constraints can be specified
+        //work can be done in parallel
+        val constraints = Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
+
+        val request = OneTimeWorkRequest.Builder(MyWorker::class.java).setConstraints(constraints).build()
+        WorkManager.getInstance().enqueue(request)
     }
 
     private fun createNotificationChannel(){
