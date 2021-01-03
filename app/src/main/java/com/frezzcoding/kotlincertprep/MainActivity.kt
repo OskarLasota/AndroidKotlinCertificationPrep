@@ -9,11 +9,15 @@ import android.content.IntentFilter
 import android.os.BatteryManager
 import android.os.Build
 import android.os.Bundle
+import android.transition.TransitionManager
+import android.util.AttributeSet
 import android.view.Gravity
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.work.Constraints
@@ -24,9 +28,20 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.custom_toast.*
 
 class MainActivity : AppCompatActivity() {
+
+
+    private lateinit var layout : ConstraintLayout
+    private var constraintSetShow = ConstraintSet()
+    private var constraintSetHide = ConstraintSet()
+    private var isShown = false
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        layout = findViewById(R.id.layout)
+        constraintSetHide.clone(layout)
+        constraintSetShow.clone(this, R.layout.activity_main_detail)
 
         //what to cover
         //todo toasts
@@ -58,6 +73,18 @@ class MainActivity : AppCompatActivity() {
         //covered
         //todo codelabs workmanager
         runWork()
+    }
+
+
+
+    fun handleClickAnimation(view: View) {
+        TransitionManager.beginDelayedTransition(layout)
+        if(isShown){
+            constraintSetHide.applyTo(layout)
+        }else{
+            constraintSetShow.applyTo(layout)
+        }
+        isShown = !isShown
     }
 
     private fun runWork(){
@@ -166,5 +193,7 @@ class MainActivity : AppCompatActivity() {
         val toast = Toast.makeText(applicationContext, "This is a toaster!", Toast.LENGTH_SHORT)
         toast.setGravity(Gravity.TOP, 0,0)
     }
+
+
 
 }
