@@ -5,6 +5,8 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
+import android.os.BatteryManager
 import android.os.Build
 import android.os.Bundle
 import android.view.Gravity
@@ -35,16 +37,22 @@ class MainActivity : AppCompatActivity() {
         //covered localisation
         //todo app fundamentals
         //broadcast receivers - send a notification if battery is low or picture was captured
-        //services
-        //content providers
+        var batteryIntentFilter = IntentFilter(Intent.ACTION_BATTERY_CHANGED)
+        var receiver = MyBroadcastReceiver()
+        registerReceiver(receiver, batteryIntentFilter)
+        //services -
+        //content providers -
         //todo implicit intents
         appSelector()
         //todo create notification
         createNotificationChannel()
         showNotification()
         //todo androidx overview
+        //covered
         //todo getting started with jetpack
+        //covered
         //todo android ktx
+        //covered
         //todo codelabs workmanager
         runWork()
     }
