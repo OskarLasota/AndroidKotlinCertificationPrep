@@ -40,8 +40,11 @@ class MainActivity : AppCompatActivity() {
         var batteryIntentFilter = IntentFilter(Intent.ACTION_BATTERY_CHANGED)
         var receiver = MyBroadcastReceiver()
         registerReceiver(receiver, batteryIntentFilter)
-        //services -
-        //content providers -
+        //services - can be a music player that will continue the service in the background
+        //foreground services - are ongoing operations in the foreground the users can interact with the service
+        //background services - these services do not notify the user about the ongoing background task
+        //bound services - behaviour of a client-server interface, the android app can send requests to the service to fetch results
+        //content providers - used to provide data from one application to other on request
         //todo implicit intents
         appSelector()
         //todo create notification
