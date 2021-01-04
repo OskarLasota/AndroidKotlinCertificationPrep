@@ -6,11 +6,9 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.os.BatteryManager
 import android.os.Build
 import android.os.Bundle
 import android.transition.TransitionManager
-import android.util.AttributeSet
 import android.view.Gravity
 import android.view.View
 import android.widget.TextView
