@@ -1,6 +1,7 @@
 package com.frezzcoding.kotlincertprep
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
@@ -9,6 +10,7 @@ import kotlinx.android.synthetic.main.fragment_one.*
 
 class FirstFragment : Fragment(R.layout.fragment_one) {
 
+    private val TAG: String = FirstFragment::class.java.simpleName
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -23,7 +25,7 @@ class FirstFragment : Fragment(R.layout.fragment_one) {
         builder.setTitle("choose theme")
         val styles = arrayOf("Light","Dark","System default")
         val checkedItem = 0
-
+        Log.d(TAG, "choosing theme dialog")
         builder.setSingleChoiceItems(styles, checkedItem) { dialog, which ->
 
             when (which) {
