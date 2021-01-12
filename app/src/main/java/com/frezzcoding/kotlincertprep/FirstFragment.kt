@@ -1,5 +1,6 @@
 package com.frezzcoding.kotlincertprep
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -17,6 +18,21 @@ class FirstFragment : Fragment(R.layout.fragment_one) {
         btn_select_theme.setOnClickListener {
             chooseThemeDialog()
         }
+        val sharedPref = activity?.getSharedPreferences(
+            getString(R.string.preference_file_key), Context.MODE_PRIVATE) ?: return
+        println("here")
+        println(sharedPref)
+        with(sharedPref.edit()){
+            putInt(getString(R.string.preference_file_key), 24)
+            apply()
+        }
+        val defaultValue = 0
+        val highScore = sharedPref.getInt(getString(R.string.preference_file_key), defaultValue)
+
+        println(highScore)
+
+
+
     }
 
     private fun chooseThemeDialog() {

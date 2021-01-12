@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">kotlincertprep</string>
+    <string name="preference_file_key">key</string>
 </resources>
