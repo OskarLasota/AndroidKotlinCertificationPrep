@@ -6,8 +6,14 @@ import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.preferencesKey
+import androidx.datastore.preferences.createDataStore
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_one.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class FirstFragment : Fragment(R.layout.fragment_one) {
 
@@ -32,6 +38,19 @@ class FirstFragment : Fragment(R.layout.fragment_one) {
         println(highScore)
 
 
+        //initialize datastore
+        val dataStore: DataStore<androidx.datastore.preferences.core.Preferences> = requireContext().createDataStore(name = "settings")
+        //read from the data store
+        val counter = preferencesKey<Int>("counter")
+        val counterFlow : Flow<Int> = dataStore.data.map {
+            it[counter] ?: 0
+        }
+
+        //call this on suspend
+        dataStore.edit { settings ->
+            val currentCounterValue = settings[counter] ?: 0
+            settings[counter] = currentCounterValue + 1
+        }
 
     }
 

@@ -18,12 +18,16 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.datastore.core.DataStore
+import androidx.datastore.createDataStore
 import androidx.work.Constraints
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.custom_toast.*
+import java.util.prefs.Preferences
 
 class MainActivity : AppCompatActivity() {
 
